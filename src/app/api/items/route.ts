@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-let items = [
+const items = [
   { id: '1', name: 'Guitare', category: 'Musique', owner: 'Alice', phoneNumber: '06 12 34 56 78', description: 'Guitare acoustique, parfaite pour les débutants', condition: 'Bon état', availableFrom: '2023-06-01', availableTo: '2023-06-30', image: '' },
   { id: '2', name: 'Vélo', category: 'Sport', owner: 'Bob', phoneNumber: '07 23 45 67 89', description: 'VTT, adapté aux terrains accidentés', condition: 'Excellent', availableFrom: '2023-06-15', availableTo: '2023-07-15', image: '' },
 ]
