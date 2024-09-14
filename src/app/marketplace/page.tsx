@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import Image from 'next/image';
 
 interface Item {
   id: string
@@ -120,7 +121,7 @@ export default function Marketplace() {
             <CardContent>
               <div className="mb-4 flex justify-center">
                 {item.image ? (
-                  <img src={item.image} alt={item.name} className="w-32 h-32 object-cover rounded" />
+                  <Image src={item.image} alt={item.name} width={128} height={128} className="object-cover rounded" />
                 ) : (
                   <div className="w-32 h-32 flex items-center justify-center text-4xl bg-gray-100 rounded">
                     {defaultEmojis[item.category] || '📦'}
@@ -142,7 +143,7 @@ export default function Marketplace() {
                   <div className="mt-4">
                     <p><strong>Propriétaire :</strong> {item.owner}</p>
                     <p><strong>Téléphone :</strong> {item.phoneNumber}</p>
-                    <p className="mt-4 text-sm text-gray-500">Veuillez contacter le propriétaire pour organiser les détails de l'emprunt.</p>
+                    <p className="mt-4 text-sm text-gray-500">Veuillez contacter le propriétaire pour organiser les détails de l&apos;emprunt.</p>
                   </div>
                 </DialogContent>
               </Dialog>
@@ -155,7 +156,7 @@ export default function Marketplace() {
         <Dialog open={!!editingItem} onOpenChange={() => setEditingItem(null)}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Modifier l'objet</DialogTitle>
+              <DialogTitle>Modifier l&apos;objet</DialogTitle>
             </DialogHeader>
             <form onSubmit={(e) => {
               e.preventDefault()
@@ -209,7 +210,7 @@ export default function Marketplace() {
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="availableTo" className="text-right">
-                    Disponible jusqu'au
+                    Disponible jusqu&apos;au
                   </Label>
                   <Input
                     id="availableTo"
@@ -335,7 +336,7 @@ export default function Marketplace() {
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="new-availableTo" className="text-right">
-                  Disponible jusqu'au
+                  Disponible jusqu&apos;au
                 </Label>
                 <Input
                   id="new-availableTo"
@@ -347,7 +348,7 @@ export default function Marketplace() {
               </div>
             </div>
             <div className="flex justify-end">
-              <Button type="submit">Ajouter l'objet</Button>
+              <Button type="submit">Ajouter l&apos;objet</Button>
             </div>
           </form>
         </DialogContent>

@@ -14,7 +14,7 @@ const categories = [
   { name: 'Sport', items: ['Vélo', 'Skis', 'Raquette de tennis', 'Ballon de football', 'Ballon de basket', 'Tapis de yoga', 'Haltères', 'Planche de surf'] },
   { name: 'Bricolage', items: ['Perceuse', 'Scie', 'Marteau', 'Jeu de tournevis', 'Échelle', 'Pistolet à peinture', 'Machine à souder', 'Nettoyeur haute pression'] },
   { name: 'Cuisine', items: ['Mixeur', 'Robot culinaire', 'Robot pâtissier', 'Mijoteuse', 'Friteuse à air', 'Extracteur de jus', 'Machine à pain', 'Machine à expresso'] },
-  { name: 'Jardin', items: ['Tondeuse', 'Taille-haie', 'Nettoyeur haute pression', 'Souffleur de feuilles', 'Tronçonneuse', 'Motoculteur', 'Brouette', 'Système d\'arrosage'] },
+  { name: 'Jardin', items: ['Tondeuse', 'Taille-haie', 'Nettoyeur haute pression', 'Souffleur de feuilles', 'Tronçonneuse', 'Motoculteur', 'Brouette', 'Système d&apos;arrosage'] },
   { name: 'Électronique', items: ['Appareil photo', 'Projecteur', 'Drone', 'Casque VR', 'Console de jeu', 'Imprimante 3D', 'Tablette', 'Chargeur portable'] },
 ]
 
@@ -35,7 +35,7 @@ export default function Onboarding() {
   const handleNext = () => {
     if (step === 1) {
       if (!username) {
-        alert('Veuillez entrer un nom d\'utilisateur')
+        alert('Veuillez entrer un nom d&apos;utilisateur')
         return
       }
       if (!validatePhoneNumber(phoneNumber)) {
@@ -72,13 +72,13 @@ export default function Onboarding() {
       <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">Commencez</h1>
       {step === 1 ? (
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <Label htmlFor="username" className="text-lg mb-2 block">Choisissez un nom d'utilisateur</Label>
+          <Label htmlFor="username" className="text-lg mb-2 block">Choisissez un nom d&apos;utilisateur</Label>
           <Input
             id="username"
             value={username}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
             className="mb-4"
-            placeholder="Entrez votre nom d'utilisateur"
+            placeholder="Entrez votre nom d&apos;utilisateur"
           />
           <Label htmlFor="phoneNumber" className="text-lg mb-2 block">Numéro de téléphone</Label>
           <Input
