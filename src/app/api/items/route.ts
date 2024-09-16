@@ -1,38 +1,80 @@
 import { NextResponse } from 'next/server'
+import { PrismaClient } from '@prisma/client'
 
-const items = [
-  { id: '1', name: 'Guitare', category: 'Musique', owner: 'Alice', phoneNumber: '06 12 34 56 78', description: 'Guitare acoustique, parfaite pour les débutants', condition: 'Bon état', availableFrom: '2023-06-01', availableTo: '2023-06-30', image: '' },
-  { id: '2', name: 'Vélo', category: 'Sport', owner: 'Bob', phoneNumber: '07 23 45 67 89', description: 'VTT, adapté aux terrains accidentés', condition: 'Excellent', availableFrom: '2023-06-15', availableTo: '2023-07-15', image: '' },
-]
+const prisma = new PrismaClient()
 
 export async function GET() {
-  return NextResponse.json(items)
+  try {
+    const items = await prisma.item.findMany({
+      include: { owner: true }
+    })
+    return NextResponse.json(items)
+  } catch (error) {
+    console.error('Failed to fetch items:', error)
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+  }
 }
 
 export async function POST(request: Request) {
-  const newItem = await request.json()
-  newItem.id = (items.length + 1).toString()
-  items.push(newItem)
-  return NextResponse.json(newItem, { status: 201 })
+  try {
+    const data = await request.json()
+    const newItem = await prisma.item.create({
+      data: {
+        name: data.name,
+        category: data.category,
+        description: data.description,
+        condition: data.condition,
+        ownerId: data.ownerId,
+        availableFrom: new Date(data.availableFrom),
+        availableTo: new Date(data.availableTo),
+        image: data.image || null  // Changed from '' to null
+      },
+      include: { owner: true }
+    })
+    return NextResponse.json(newItem, { status: 201 })
+  } catch (error) {
+    console.error('Failed to create item:', error)
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
+  }
 }
 
 export async function PUT(request: Request) {
-  const updatedItem = await request.json()
-  const index = items.findIndex(item => item.id === updatedItem.id)
-  if (index !== -1) {
-    items[index] = updatedItem
+  try {
+    const data = await request.json()
+    const updatedItem = await prisma.item.update({
+      where: { id: data.id },
+      data: {
+        name: data.name,
+        category: data.category,
+        description: data.description,
+        condition: data.condition,
+        availableFrom: new Date(data.availableFrom),
+        availableTo: new Date(data.availableTo),
+        image: data.image || null  // Changed to handle null case
+      },
+      include: { owner: true }
+    })
     return NextResponse.json(updatedItem)
+  } catch (error) {
+    console.error('Failed to update item:', error)
+    return NextResponse.json({ error: 'Item non trouvé' }, { status: 404 })
   }
-  return NextResponse.json({ error: 'Item non trouvé' }, { status: 404 })
 }
 
 export async function DELETE(request: Request) {
-  const { searchParams } = new URL(request.url)
-  const id = searchParams.get('id')
-  const index = items.findIndex(item => item.id === id)
-  if (index !== -1) {
-    const deletedItem = items.splice(index, 1)[0]
+  try {
+    const { searchParams } = new URL(request.url)
+    const id = searchParams.get('id')
+    if (!id) {
+      return NextResponse.json({ error: 'ID non fourni' }, { status: 400 })
+    }
+    const deletedItem = await prisma.item.delete({
+      where: { id: id },
+      include: { owner: true }
+    })
     return NextResponse.json(deletedItem)
+  } catch (error) {
+    console.error('Failed to delete item:', error)
+    return NextResponse.json({ error: 'Item non trouvé' }, { status: 404 })
   }
-  return NextResponse.json({ error: 'Item non trouvé' }, { status: 404 })
 }
